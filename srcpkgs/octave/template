@@ -1,0 +1,22 @@
+# Template file for 'octave'
+pkgname=octave
+version=3.8.2
+revision=1
+#wrksrc=
+#create_wrksrc=yes
+#only_for_archs="i686 x86_64"
+build_style=gnu-configure
+#configure_args=""
+#make_build_args=""
+#make_install_args=""
+#conf_files=""
+#make_dirs="/var/log/dir 0755 root root"
+hostmakedepends="gcc-c++ gcc-fortran perl"
+makedepends="ghostscript less gnuplot-wx libgraphicsmagick-devel pcre-devel readline-devel fftw-devel blas-devel lapack-devel"
+depends="ghostscript less gnuplot-wx libgraphicsmagick libpcre readline libfftw blas lapack"
+short_desc="MATLAB like numerical software"
+maintainer="Jan Smydke <jan.smydke@gmail.com>"
+license="GPL-3"
+homepage="http://www.gnu.org/software/octave"
+distfiles="http://ftp.gnu.org/gnu/octave/octave-3.8.2.tar.gz"
+checksum=f258e9c41a5647e2ec61817cc82a4e389614ed062e64672976214dd43dfa5417
