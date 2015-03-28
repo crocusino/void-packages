@@ -8,6 +8,7 @@ revision=1
 build_style=gnu-configure
 hostmakedepends="gcc-fortran perl"
 makedepends="ghostscript gnuplot-wx libgraphicsmagick-devel pcre-devel readline-devel fftw-devel blas-devel lapack-devel"
+only_for_archs="i686 x86_64"
 short_desc="MATLAB like numerical software"
 maintainer="Jan Smydke <jan.smydke@gmail.com>"
 license="GPL-3"
