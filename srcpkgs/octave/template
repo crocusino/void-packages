@@ -1,4 +1,7 @@
 # Template file for 'octave'
+#
+#   'ghostscript' and 'gnuplot-wx' are necessary as makedepends to be detected by 'configure' script
+#   (it's not sufficient to be as depends only) otherwise octave does not work properly
 pkgname=octave
 version=3.8.2
 revision=1
