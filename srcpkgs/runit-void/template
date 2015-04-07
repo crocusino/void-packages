@@ -1,24 +1,32 @@
 # Template file for 'runit-void'
 pkgname=runit-void
-version=20150327
-revision=1
+version=20150402.1
+revision=2
+wrksrc="void-runit-${version}"
 build_pie=yes
 build_style=gnu-makefile
 homepage="http://www.voidlinux.eu"
 short_desc="Void Linux runit scripts"
 maintainer="Juan RP <xtraeme@gmail.com>"
 license="Public Domain"
+distfiles="https://github.com/voidlinux/void-runit/archive/${version}.tar.gz"
+checksum=a61cfaa633fbdf631dac90785e59e53f0bd0151047e4dd27271d10fd712a37c1
 
-hostmakedepends="git"
 depends="virtual?awk procps-ng runit"
-conf_files="/etc/hostname /etc/locale.conf /etc/rc.conf /etc/rc.local /etc/rc.shutdown"
+conf_files="
+ /etc/hostname
+ /etc/locale.conf
+ /etc/rc.conf
+ /etc/rc.local
+ /etc/rc.shutdown
+ /etc/sv/agetty-console/conf
+ /etc/sv/agetty-serial/conf
+ /etc/sv/agetty-tty1/conf"
+
 make_dirs="
  /etc/zzz.d/suspend 0755 root root
  /etc/zzz.d/resume 0755 root root"
 
-do_fetch() {
-	git clone git://github.com/voidlinux/runit-void ${pkgname}-${version}
-}
 post_install() {
 	vconf ${XBPS_SRCPKGDIR}/systemd/files/hostname
 	vconf ${XBPS_SRCPKGDIR}/systemd/files/os-release

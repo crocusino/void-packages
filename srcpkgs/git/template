@@ -1,6 +1,6 @@
 # Template file for "git"
 pkgname=git
-version=2.3.4
+version=2.3.5
 revision=1
 build_style=gnu-configure
 configure_args="--with-curl --with-expat --with-tcltk
@@ -16,7 +16,7 @@ maintainer="Juan RP <xtraeme@gmail.com>"
 homepage="http://git-scm.com/"
 license="GPL-2"
 distfiles="https://www.kernel.org/pub/software/scm/git/git-${version}.tar.xz"
-checksum=97ea2b2101797fb32a1698b0b8c81811d521699fa49fad8f04c8cba94b09db95
+checksum=d7711324a58d41b4c46d1e4d560ce17fec5f79fa0311107c15aac866f2c1645a
 
 subpackages="git-svn git-perl gitk git-gui"
 
@@ -36,7 +36,7 @@ git-perl_package() {
 	short_desc+=" - perl utilities"
 	pkg_install() {
 		for f in add--interactive archimport cvsexportcommit cvsimport \
-			cvsserver relink send-email; do
+			cvsserver difftool difftool--helper relink send-email; do
 			vmove usr/libexec/git-core/git-${f}
 		done
 		vmove usr/share/perl5

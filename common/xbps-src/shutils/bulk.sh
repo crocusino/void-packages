@@ -13,6 +13,10 @@ bulk_getlink() {
 bulk_build() {
     local _pkgs _pkg pkgs pkg found f x tmpf
 
+    if [ "$XBPS_CROSS_BUILD" ]; then
+        source ${XBPS_COMMONDIR}/cross-profiles/${XBPS_CROSS_BUILD}.sh
+        export XBPS_ARCH=${XBPS_TARGET_ARCH}
+    fi
     if ! command -v xbps-checkvers &>/dev/null; then
         msg_error "xbps-src: cannot find xbps-checkvers(8) command!\n"
     fi
@@ -38,11 +42,7 @@ bulk_build() {
     # Perform a topological sort of all pkgs but only with build dependencies
     # that are found in previous step.
     for pkg in ${pkgs}; do
-        for x in ${XBPS_COMMONDIR}/environment/setup/*.sh; do
-            . $x
-        done
-        . ${XBPS_SRCPKGDIR}/${pkg}/template
-        _pkgs="$(show_pkg_build_deps | sed -e 's|[<>].*\$||g')"
+        _pkgs="$(./xbps-src show-build-deps $pkg 2>/dev/null)"
         found=0
         for x in ${_pkgs}; do
             _pkg=$(bulk_getlink $x)
@@ -56,7 +56,7 @@ bulk_build() {
         done
         [ $found -eq 0 ] && echo "${pkg} ${pkg}" >> $tmpf
     done
-    tsort $tmpf
+    tsort $tmpf|tac
     rm -f $tmpf
 }
 

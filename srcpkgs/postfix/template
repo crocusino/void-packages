@@ -1,13 +1,13 @@
 # Template file for 'postfix'
 pkgname=postfix
-version=2.11.4
-revision=2
+version=3.0.0
+revision=1
 short_desc="High-performance mail transport agent"
 maintainer="Juan RP <xtraeme@gmail.com>"
 license="IBM Public License 1.0, BSD-alike"
 homepage="http://www.postfix.org/"
 distfiles="ftp://ftp.porcupine.org/mirrors/postfix-release/official/$pkgname-$version.tar.gz"
-checksum=f4154c1db58c0300897d4c430bd90714ac7855249df59cc8828910fd5ccb031e
+checksum=c2f2f10aa3e6b7090ba979e9c515e42b3140c5c1c17a33d58787569df7ae0955
 
 hostmakedepends="perl"
 makedepends="libressl-devel db-devel pcre-devel libsasl-devel
@@ -18,6 +18,13 @@ if [ "$CROSS_BUILD" ]; then
 	hostmakedepends+=" ${pkgname}"
 fi
 
+build_pie=yes
+build_options="systemd"
+system_accounts="postfix"
+postfix_homedir="/var/spool/postfix"
+system_groups="postdrop"
+provides="smtp-server-0_1"
+replaces="smtp-server>=0"
 conf_files="
 	/etc/postfix/access
 	/etc/postfix/aliases
@@ -29,12 +36,6 @@ conf_files="
 	/etc/postfix/relocated
 	/etc/postfix/transport
 	/etc/postfix/virtual"
-build_options="systemd"
-system_accounts="postfix"
-postfix_homedir="/var/spool/postfix"
-system_groups="postdrop"
-provides="smtp-server-0_1"
-replaces="smtp-server>=0"
 make_dirs="
 	/var/lib/postfix		0700	postfix	root
 	/var/spool/postfix/active	0700	postfix	root
@@ -55,19 +56,19 @@ make_dirs="
 do_build() {
 	sed -e "s,\(/usr/include/db.h\),${XBPS_CROSS_BASE}/\1,g" -i makedefs
 
-	make makefiles DEBUG='' CCARGS=' \
-		-DUSE_SASL_AUTH -DUSE_CYRUS_SASL -I/usr/include/sasl \
+	make makefiles DEBUG='' CCARGS=" \
+		-DUSE_SASL_AUTH -DUSE_CYRUS_SASL -I${XBPS_CROSS_BASE}/usr/include/sasl \
 		-DHAS_LDAP \
 		-DUSE_TLS \
-		-DHAS_MYSQL -I/usr/include/mysql \
-		-DHAS_PGSQL -I/usr/include/postgresql \
+		-DHAS_MYSQL -I${XBPS_CROSS_BASE}/usr/include/mysql \
+		-DHAS_PGSQL -I${XBPS_CROSS_BASE}/usr/include/postgresql \
 		-DHAS_SQLITE \
-		-DDEF_COMMAND_DIR=\"/usr/bin\" \
-		-DDEF_SENDMAIL_PATH=\"/usr/bin/sendmail\" \
-		-DDEF_README_DIR=\"/usr/share/doc/postfix\" \
-		-DDEF_SAMPLE_DIR=\"/usr/share/examples/postfix/\" \
-		-DDEF_MANPAGE_DIR=\"/usr/share/man\" \
-	' AUXLIBS=' \
+		-DDEF_COMMAND_DIR=\'/usr/bin\' \
+		-DDEF_SENDMAIL_PATH=\'/usr/bin/sendmail\' \
+		-DDEF_README_DIR=\'/usr/share/doc/postfix\' \
+		-DDEF_SAMPLE_DIR=\'/usr/share/examples/postfix/\' \
+		-DDEF_MANPAGE_DIR=\'/usr/share/man\' \
+	" AUXLIBS=' \
 		-lsasl2 \
 		-lldap -llber \
 		-lssl -lcrypto \
@@ -76,9 +77,6 @@ do_build() {
 		-lsqlite3 -lpthread \
 	' OPT="${CFLAGS} ${LDFLAGS}"
 
-	if [ "$CROSS_BUILD" ]; then
-		sed -e "s,/usr/include,${XBPS_CROSS_BASE}/usr/include,g" -i Makefile
-	fi
 	make ${makejobs}
 }
 pre_install() {

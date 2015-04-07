@@ -25,6 +25,7 @@ libdl.so.2 glibc-2.8_1
 ld-linux-x86-64.so.2 glibc-2.8_1 x86_64
 ld-linux.so.2 glibc-2.8_1 i686
 ld-linux.so.3 glibc-2.17_1 armv5tel
+ld-linux-aarch64.so.1 glibc-2.19_1 aarch64
 ld.so.1 glibc-2.17_1 mips
 ld-linux-armhf.so.3 glibc-2.17_1
 libresolv.so.2 glibc-2.8_1
@@ -1441,7 +1442,6 @@ libc++.so.1 libcxx-3.4_1
 libopenobex.so.2 openobex-1.7.1_1
 libnotmuch.so.4 libnotmuch-0.19_1
 libdri2.so.1 libdri2-0.1_1
-libUMP.so libump-1.0_1
 libUMP.so.3 libump-1.0_1
 libatomic_ops_gpl.so.0 libatomic_ops-7.2e_1
 libatomic_ops.so.0 libatomic_ops-7.2e_1
@@ -1844,7 +1844,7 @@ libQt5WebEngine.so.5 qt5-webengine-5.4.0_1
 libQt5WebEngineCore.so.5 qt5-webengine-5.4.0_1
 libQt5WebEngineWidgets.so.5 qt5-webengine-5.4.0_1
 libQt5WaylandClient.so.5 qt5-wayland-5.4.0_1
-libx265.so.43 x265-1.5_1
+libx265.so.51 x265-1.6_1
 libQt5Xdg.so.1 libqtxdg-1.0.0_1
 liblxqt-qt5.so.0 liblxqt-0.8.0_1
 liblxqtmount-qt5.so.0 liblxqt-mount-0.8.0_1
@@ -1970,3 +1970,7 @@ libtoxencryptsave.so.0 toxcore-git-20150313_2
 libtoxdns.so.0 toxcore-git-20150313_2
 libtoxav.so.0 toxcore-git-20150313_2
 libetpan.so.17 libetpan-1.6_1
+libxmp.so.4 libxmp-4.3.7_1
+libOpenImageIO_Util.so.1.5 openimageio-1.5.13_1
+libOpenImageIO.so.1.5 openimageio-1.5.13_1
+libOpenColorIO.so.1 opencolorio-1.0.8_1

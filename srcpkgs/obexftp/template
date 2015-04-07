@@ -1,7 +1,7 @@
 # Template file for 'obexftp'
 pkgname=obexftp
 version=0.24
-revision=2
+revision=3
 wrksrc=${pkgname}-${version}-Source
 build_style=cmake
 hostmakedepends="pkg-config cmake"
@@ -13,6 +13,11 @@ homepage="http://dev.zuckschwerdt.org/openobex/wiki/ObexFtp"
 distfiles="${SOURCEFORGE_SITE}/openobex/${pkgname}-${version}-Source.tar.gz"
 checksum=b907965608bf0e60c69bc45f074ce1a2ffeb809b4502a7082c6d95e3c73dfe6b
 
+post_install() {
+	# Do not require 'bluetooth', does not exist.
+	sed -i '/Requires:/s/bluetooth//' ${DESTDIR}/usr/lib/pkgconfig/obexftp.pc
+}
+
 libbfb_package() {
 	short_desc="bfb protocol library"
 	pkg_install() {
@@ -22,7 +27,7 @@ libbfb_package() {
 
 libbfb-devel_package() {
 	short_desc="bfb protocol library - development files"
-	depends="libbfb>=${version}_${revision}"
+	depends="libbfb-${version}_${revision}"
 	pkg_install() {
 		vmove usr/include/bfb
 		vmove usr/lib/libbfb.so
@@ -38,7 +43,7 @@ libmulticobex_package() {
 
 libmulticobex-devel_package() {
 	short_desc="Multi-protocol cable OBEX library - development files"
-	depends="libmulticobex>=${version}_${revision}"
+	depends="libmulticobex-${version}_${revision}"
 	pkg_install() {
 		vmove usr/include/multicobex
 		vmove usr/lib/libmulticobex.so
@@ -54,7 +59,9 @@ libobexftp_package() {
 
 libobexftp-devel_package() {
 	short_desc="OBject EXchange file transfer library - development files"
-	depends="libmulticobex-devel>=${version}_${revision} libobexftp>=${version}_${revision}"
+	depends="openobex-devel libbfb-devel-${version}_${revision}
+		libmulticobex-devel-${version}_${revision}
+		libobexftp-${version}_${revision}"
 	pkg_install() {
 		vmove usr/include
 		vmove "usr/lib/*.so"
